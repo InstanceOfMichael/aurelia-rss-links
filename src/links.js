@@ -1,34 +1,25 @@
-//import {computedFrom} from 'aurelia-framework';
+import {inject} from 'aurelia-framework';
+import {HttpClient} from 'aurelia-fetch-client';
+import 'fetch';
 
+@inject(HttpClient)
 export class Links {
-  heading = 'Links Heading!';
-  firstName = 'John';
-  lastName = 'Doe';
-  previousValue = this.fullName;
+  heading = 'Github Users';
+  users = [];
 
-  //Getters can't be directly observed, so they must be dirty checked.
-  //However, if you tell Aurelia the dependencies, it no longer needs to dirty check the property.
-  //To optimize by declaring the properties that this getter is computed from, uncomment the line below
-  //as well as the corresponding import above.
-  //@computedFrom('firstName', 'lastName')
-  get fullName() {
-    return `${this.firstName} ${this.lastName}`;
+  constructor(http) {
+    http.configure(config => {
+      config
+        .useStandardConfiguration()
+        .withBaseUrl('https://api.github.com/');
+    });
+
+    this.http = http;
   }
 
-  submit() {
-    this.previousValue = this.fullName;
-    alert(`Links, ${this.fullName}!`);
-  }
-
-  canDeactivate() {
-    if (this.fullName !== this.previousValue) {
-      return confirm('Are you sure you want to leave?');
-    }
-  }
-}
-
-export class UpperValueConverter {
-  toView(value) {
-    return value && value.toUpperCase();
+  activate() {
+    return this.http.fetch('users')
+      .then(response => response.json())
+      .then(users => this.users = users);
   }
 }
