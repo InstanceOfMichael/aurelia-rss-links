@@ -71,6 +71,8 @@
       "bootstrap": "github:twbs/bootstrap@^3.3.5",
       "fetch": "github:github/fetch@^0.10.1",
       "font-awesome": "npm:font-awesome@^4.5.0",
+      "js-data": "npm:js-data@^2.8.2",
+      "js-data-localstorage": "npm:js-data-localstorage@^2.3.2",
       "text": "github:systemjs/plugin-text@^0.0.3"
     },
     "devDependencies": {

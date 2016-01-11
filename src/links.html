@@ -1,7 +1,27 @@
 <template>
 
-  <section class="au-animate">
+  <section class="links">
     <h2>${heading}</h2>
+    <div class="row link-entry" repeat.for="entry of entries">
+      <div class="col-xs-12">
+        <a target="_blank" href.bind="entry.link" click.delegate="viewingLink($event,entry)">
+          <h6>${entry.title}</h6>
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-1">
+      </div>
+      <div class="col-xs-12 col-sm-2">
+        <label class="btn btn-default btn-block" innerHTML.bind="entry.content">Comments</label>
+      </div>
+      <div class="col-xs-12 col-sm-8">
+        ${entry.pubDate}
+      </div>
+      <div class="col-xs-12">
+        <code>
+          <pre>${entry.debug_json}</pre>
+        </code>
+      </div>
+    </div>
     <div class="row au-stagger">
       <div class="col-sm-12 col-md-6 card-container au-animate" repeat.for="entry of entries">
         <div class="card">

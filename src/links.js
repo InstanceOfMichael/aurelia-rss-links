@@ -6,6 +6,7 @@ import 'fetch';
 export class Links {
   heading = 'HN Links';
   entries = [];
+  lastViewedLink = null;
 
   constructor(http) {
     http.configure(config => {
@@ -17,6 +18,15 @@ export class Links {
     this.http = http;
   }
 
+  // @todo highlight most recently clicked link
+  viewingLink($event, entry) {
+    // localStorage.lastViewedLink = '';
+    this.lastViewedLink = entry.link;
+
+    return true;// continue bubbling the event
+                // user's browser will direct to http://${entry.link}
+  }
+
   activate() {
     return this.http.fetch('/links')
       .then(response => response.json())
@@ -24,7 +34,10 @@ export class Links {
       //   console.log(response);
       //   return response;
       // })
-      .then(response => this.entries = response.entries)
+      .then(response => this.entries = response.entries.map(function(entry) {
+        entry.debug_json = JSON.stringify(entry, null, 4);
+        return entry;
+      }))
       // .then(rss => this.rss = rss)
       ;
   }
